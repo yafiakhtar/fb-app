@@ -1,9 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+// Server-side: use non-VITE prefixed vars (Vercel serverless)
+// Falls back to VITE_ prefixed for local dev
+const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseServiceKey);
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Missing Supabase environment variables');
+}
+
+export const supabase = createClient(supabaseUrl || '', supabaseKey || '');
 
 // Helper function to generate unique team names
 const teamAdjectives = ['Swift', 'Mighty', 'Golden', 'Thunder', 'Iron', 'Royal', 'Silver', 'Brave', 'Storm', 'Wild'];
