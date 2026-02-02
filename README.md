@@ -1,4 +1,4 @@
-# Soccer Pickup 7v7
+# Soccer Pickup 7v7 - https://psu-im-pickup-soccer-hella-crowded-on-fridays.vercel.app
 
 A web app for organizing pickup 7v7 soccer games at universities. Features real-time updates, dynamic team formation, and a King of the Hill rotation system.
 
@@ -35,7 +35,7 @@ CREATE TABLE teams (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Players table  
+-- Players table
 CREATE TABLE players (
   id SERIAL PRIMARY KEY,
   nickname TEXT NOT NULL,
@@ -69,9 +69,7 @@ npm install
 # Create .env file
 cp .env.example .env
 
-# Add your Supabase credentials to .env
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
+# Add your Supabase credentials to .env (copy from .env.example)
 
 # Start dev server
 npm run dev
@@ -82,8 +80,10 @@ npm run dev
 1. Push code to GitHub
 2. Go to [vercel.com](https://vercel.com) and import your repo
 3. Add environment variables:
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
+   - `VITE_SUPABASE_URL` – used by the frontend
+   - `VITE_SUPABASE_ANON_KEY` – used by the frontend
+   - `SUPABASE_URL` – used by serverless API (same value as above)
+   - `SUPABASE_ANON_KEY` – used by serverless API (same value as above)
 4. Deploy!
 
 ## How It Works
@@ -105,17 +105,20 @@ npm run dev
 ```
 fb-app/
 ├── src/                    # React frontend
-│   ├── components/         # UI components
-│   ├── hooks/              # React hooks (useGameState)
-│   └── services/           # API client
+│   ├── components/         # UI components (SignupForm, GroupSignup, TeamsDisplay, Waitlist, AdminPanel)
+│   ├── hooks/              # useGameState (real-time subscription + fetch)
+│   └── services/           # api.js – API client
 ├── api/                    # Vercel serverless functions
+│   ├── _lib/
+│   │   └── supabase.js     # Supabase client for API
 │   ├── players.js          # Add/remove players
-│   ├── teams.js            # Get game state
-│   ├── groups.js           # Create/get groups
-│   ├── groups/[code]/      # Dynamic group routes
-│   └── admin/              # Admin actions
-├── lib/                    # Shared utilities
-│   └── supabase.js         # Supabase client
+│   ├── teams.js            # GET game state
+│   ├── groups.js           # Create group (POST), get group (GET ?code=)
+│   ├── groups/join.js      # Join group – POST body: { code, nickname }
+│   ├── groups/[code]/join.js  # Join by code in URL (alternative)
+│   └── admin/              # win, draw, reset, teams (remove team)
+├── lib/                    # Frontend Supabase client
+│   └── supabase.js
 ├── package.json
 ├── vite.config.js
 └── vercel.json
@@ -125,13 +128,13 @@ fb-app/
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/players` | Add solo player |
-| DELETE | `/api/players` | Remove player |
-| GET | `/api/teams` | Get game state |
-| POST | `/api/groups` | Create group |
-| GET | `/api/groups?code=XXX` | Get group info |
-| POST | `/api/groups/[code]/join` | Join group |
-| POST | `/api/admin/win` | Declare winner |
-| POST | `/api/admin/draw` | Declare draw |
-| POST | `/api/admin/reset` | Reset all data |
-| DELETE | `/api/admin/teams` | Remove team |
+| POST | `/api/players` | Add solo player. Body: `{ nickname }` |
+| DELETE | `/api/players` | Remove player. Body: `{ playerId }` |
+| GET | `/api/teams` | Get game state (playing, queued, forming teams, waitlist) |
+| POST | `/api/groups` | Create group; returns `{ code }` |
+| GET | `/api/groups?code=XXX` | Get group info (players, slots needed) |
+| POST | `/api/groups/join` | Join group. Body: `{ code, nickname }` |
+| POST | `/api/admin/win` | Declare winner. Body: `{ winnerPosition }` (1 or 2) |
+| POST | `/api/admin/draw` | Declare draw (both teams go to back of queue) |
+| POST | `/api/admin/reset` | Reset all data (players, teams, groups) |
+| DELETE | `/api/admin/teams` | Remove a team. Body: `{ teamId }` |
