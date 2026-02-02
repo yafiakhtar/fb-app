@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { createGroup, joinGroup, getGroup } from '../services/api';
 
 function GroupSignup({ onSuccess }) {
-  const [mode, setMode] = useState('choose'); // 'choose' | 'create' | 'join'
+  const [mode, setMode] = useState('choose');
   const [groupCode, setGroupCode] = useState('');
   const [inputCode, setInputCode] = useState('');
   const [nickname, setNickname] = useState('');

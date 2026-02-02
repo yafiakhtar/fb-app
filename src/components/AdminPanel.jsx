@@ -130,7 +130,6 @@ function AdminPanel({ playing, queued, formingTeams, waitlist, canPlay, onAction
           </div>
         </div>
 
-        {/* Match Controls */}
         {canPlay && playing.length >= 2 && (
           <div className="match-controls">
             <h3>Match Result</h3>
@@ -188,7 +187,6 @@ function AdminPanel({ playing, queued, formingTeams, waitlist, canPlay, onAction
           </button>
         </div>
         
-        {/* All Teams */}
         <div className="admin-teams">
           <h3>All Teams</h3>
           

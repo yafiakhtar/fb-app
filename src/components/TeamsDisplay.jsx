@@ -9,7 +9,7 @@ function TeamsDisplay({ teams, isPlaying = false, isForming = false, showQueuePo
 
   return (
     <div className={`teams-grid ${isPlaying ? 'playing' : ''}`}>
-      {teams.map((team, index) => (
+      {teams.map((team) => (
         <div 
           key={team.id} 
           className={`team-card ${isPlaying ? 'on-field' : ''} ${isForming ? 'forming' : ''}`}
@@ -47,7 +47,6 @@ function TeamsDisplay({ teams, isPlaying = false, isForming = false, showQueuePo
               </li>
             ))}
             
-            {/* Empty slots */}
             {Array.from({ length: 7 - team.players.length }).map((_, idx) => (
               <li key={`empty-${idx}`} className="player-item empty">
                 <span className="player-number">{team.players.length + idx + 1}</span>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSocket } from './hooks/useSocket';
+import { useGameState } from './hooks/useGameState';
 import SignupForm from './components/SignupForm';
 import GroupSignup from './components/GroupSignup';
 import TeamsDisplay from './components/TeamsDisplay';
@@ -7,7 +7,7 @@ import Waitlist from './components/Waitlist';
 import AdminPanel from './components/AdminPanel';
 
 function App() {
-  const { playing, queued, formingTeams, waitlist, totalTeams, canPlay, connected, refresh } = useSocket();
+  const { playing, queued, formingTeams, waitlist, totalTeams, canPlay, connected, refresh } = useGameState();
   const [showAdmin, setShowAdmin] = useState(false);
   const [signupMode, setSignupMode] = useState('solo'); // 'solo' | 'group'
 

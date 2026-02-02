@@ -1,8 +1,11 @@
 # Dependencies
 node_modules/
 
-# Database
+# Database (local dev)
 *.db
+
+# Vercel
+.vercel/
 
 # Environment
 .env

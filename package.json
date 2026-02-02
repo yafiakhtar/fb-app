@@ -1,7 +1,7 @@
 {
-  "name": "soccer-pickup-frontend",
+  "name": "soccer-pickup-7v7",
   "version": "1.0.0",
-  "description": "Frontend for 7v7 Soccer Pickup Organizer",
+  "description": "7v7 Soccer Pickup Organizer with King of the Hill rotation",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,7 +11,7 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "socket.io-client": "^4.8.1"
+    "@supabase/supabase-js": "^2.45.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.18",
