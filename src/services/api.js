@@ -50,9 +50,9 @@ export async function getGroup(code) {
 }
 
 export async function joinGroup(code, nickname) {
-  return fetchApi(`/groups/${code}/join`, {
+  return fetchApi('/groups/join', {
     method: 'POST',
-    body: JSON.stringify({ nickname }),
+    body: JSON.stringify({ code, nickname }),
   });
 }
 
