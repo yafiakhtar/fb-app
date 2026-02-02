@@ -1,6 +1,6 @@
 # Soccer Pickup 7v7
 
-psu-im-pickup-soccer-hella-crowded-on-fridays.vercel.app
+https://psu-im-pickup-soccer-hella-crowded-on-fridays.vercel.app
 
 A web app for organizing pickup 7v7 soccer games at universities. Features real-time updates, dynamic team formation, and a King of the Hill rotation system.
 
